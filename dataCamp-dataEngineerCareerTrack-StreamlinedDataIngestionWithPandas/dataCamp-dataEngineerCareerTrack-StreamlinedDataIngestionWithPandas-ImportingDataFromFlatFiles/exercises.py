@@ -31,5 +31,69 @@ data = pd.read_csv('vt_tax_data_2016.tsv', sep='\t')
 counts = data.groupby("agi_stub").N1.sum()
 counts.plot.bar()
 
+#3
+'''
+Import a subset of columns
+The Vermont tax data contains 147 columns describing household composition, income sources, and taxes paid by ZIP code and income group. Most analyses don't need all these columns. In this exercise, you will create a data frame with fewer variables using read_csv()s usecols argument.
+
+Let's focus on household composition to see if there are differences by geography and income level. To do this, we'll need columns on income group, ZIP code, tax return filing status (e.g., single or married), and dependents. The data uses codes for variable names, so the specific columns needed are in the instructions.
+
+pandas has already been imported as pd.
+'''
+
+# Create list of columns to use
+cols = ['zipcode', 'agi_stub', 'mars1', 'MARS2', 'NUMDEP']
+
+# Create a data frame from csv using only selected columns
+data = pd.read_csv('vt_tax_data_2016.csv', usecols=cols)
+
+# View counts of dependents and tax returns by income level
+print(data.groupby('agi_stub').sum())
+
+# Exercise 4
+'''
+The first 500 rows have been loaded as vt_data_first500. You'll get the next 500 rows. To do this, you'll employ several keyword arguments: nrows and skiprows to get the correct records, header to tell pandas the data does not have column names, and names to supply the missing column names. You'll also want to use the list() function to get column names from vt_data_first500 to reuse.
+
+pandas has been imported as pd.
+'''
+
+# Create data frame of next 500 rows with labeled columns
+col_names = list(vt_data_first500)
+vt_data_next500 = pd.read_csv('vt_tax_data_2016.csv', nrows=500, skiprows=500, header=None, names=col_names)
+
+print(vt_data_first500.head())
+print(vt_data_next500.head())
+
+# Exercise 5
+'''
+Looking at the data dictionary for vt_tax_data_2016.csv reveals two such columns. The agi_stub column contains numbers that correspond to income categories, and zipcode has 5-digit values that should be strings -- treating them as integers means we lose leading 0s, which are meaningful. Let's specify the correct data types with the dtype argument.
+
+
+'''
+
+# Load csv with no additional arguments
+data = pd.read_csv('vt_tax_data_2016.csv')
+
+# Print the data types
+print(data.dtypes)
+
+# Exercise 6
+'''
+Looking at the data dictionary for vt_tax_data_2016.csv reveals two such columns. The agi_stub column contains numbers that correspond to income categories, and zipcode has 5-digit values that should be strings -- treating them as integers means we lose leading 0s, which are meaningful. Let's specify the correct data types with the dtype argument.
+
+
+'''
+
+# Create dict specifying data types for agi_stub and zipcode
+data_types = {'agi_stub': 'category', 'zipcode': str}
+
+# Load csv using dtype to set correct data types
+data= pd.read_csv('vt_tax_data_2016.csv', dtype=data_types)
+
+# Print data types of resulting frame
+print(data.dtypes.head())
+
+
+
 
 
